@@ -3,256 +3,160 @@ dish=[{"ID":1,"Name":"samosa","Quantity":10,"Price":20},{"ID":2,"Name":"momo","Q
 
 order=[]
 
-import tkinter as tk
-from tkinter import messagebox
+def Add_dish():
+    name=(input("Enter Dish Name: "))
+    Id=int(input("Enter Dish ID: "))
+    price=int(input("Enter Dish Price: "))
+    quantity=int(input("Enter Dish Quantity: "))
 
-def show_menu():
-    menu_window = tk.Toplevel(root)
-    menu_window.title("Menu")
-    
-    # Create a text widget to display the menu
-    menu_text = tk.Text(menu_window)
-    menu_text.pack()
-    
-    # Insert menu items into the text widget
-    for item in dish:
-        menu_text.insert(tk.END, f"ID: {item['ID']} - Name: {item['Name']} - Quantity: {item['Quantity']} - Price: {item['Price']}\n")
-    
-    # Disable text widget editing
-    menu_text.config(state=tk.DISABLED)
+    ob={
+        "ID":Id,
+        "Name":name,
+        "Price":price,
+        "Quantity":quantity
 
-def add_dish():
-    add_window = tk.Toplevel(root)
-    add_window.title("Add Dish")
-    
-    # Create labels and entry fields for dish details
-    name_label = tk.Label(add_window, text="Dish Name:")
-    name_label.pack()
-    name_entry = tk.Entry(add_window)
-    name_entry.pack()
-    
-    id_label = tk.Label(add_window, text="Dish ID:")
-    id_label.pack()
-    id_entry = tk.Entry(add_window)
-    id_entry.pack()
-    
-    price_label = tk.Label(add_window, text="Dish Price:")
-    price_label.pack()
-    price_entry = tk.Entry(add_window)
-    price_entry.pack()
-    
-    quantity_label = tk.Label(add_window, text="Dish Quantity:")
-    quantity_label.pack()
-    quantity_entry = tk.Entry(add_window)
-    quantity_entry.pack()
-    
-    def add_dish_button():
-        name = name_entry.get()
-        Id = int(id_entry.get())
-        price = int(price_entry.get())
-        quantity = int(quantity_entry.get())
+    }
 
-        ob = {
-            "ID": Id,
-            "Name": name,
-            "Price": price,
-            "Quantity": quantity
-        }
 
-        for item in dish:
-            if item["ID"] == Id:
-                messagebox.showinfo("Error", "Dish already exists with this ID")
-                add_window.destroy()
-                return
 
-        dish.append(ob)
-        messagebox.showinfo("Success", "Dish added successfully")
-        add_window.destroy()
+    for i in range(len(dish)):
+        if dish[i]["ID"]==Id:
+            print()
+            print("Dish already exist with this Id")
+            print()
+            return 
 
-    # Create a button to add the dish
-    add_button = tk.Button(add_window, text="Add Dish", command=add_dish_button)
-    add_button.pack()
 
-def remove_dish():
-    remove_window = tk.Toplevel(root)
-    remove_window.title("Remove Dish")
-    
-    # Create a label and entry field for the dish ID
-    id_label = tk.Label(remove_window, text="Dish ID:")
-    id_label.pack()
-    id_entry = tk.Entry(remove_window)
-    id_entry.pack()
-    
-    def remove_dish_button():
-        Id = int(id_entry.get())
+    dish.append(ob)
+    print()
+    print("Dish Added Successfully !!")
 
-        for i, item in enumerate(dish):
-            if item["ID"] == Id:
-                dish.pop(i)
-                messagebox.showinfo("Success", "Dish removed successfully")
-                remove_window.destroy()
-                return
 
-        messagebox.showinfo("Error", "Item doesn't exist")
-        remove_window.destroy()
 
-    # Create a button to remove the dish
-    remove_button = tk.Button(remove_window, text="Remove Dish", command=remove_dish_button)
-    remove_button.pack()
+def Show_Menu():
+    print()
+    print(dish)
+    print()
 
-def update_availability():
-    update_window = tk.Toplevel(root)
-    update_window.title("Update Availability")
-    
-    # Create labels and entry fields for dish ID and quantity
-    id_label = tk.Label(update_window, text="Dish ID:")
-    id_label.pack()
-    id_entry = tk.Entry(update_window)
-    id_entry.pack()
-    
-    inc_label = tk.Label(update_window, text="Quantity to Increase:")
-    inc_label.pack()
-    inc_entry = tk.Entry(update_window)
-    inc_entry.pack()
-    
-    def update_availability_button():
-        Id = int(id_entry.get())
-        inc = int(inc_entry.get())
+def Remove_dish():
+    print("\n")
+    Id=int(input("Enter Dish ID: "))
 
-        for item in dish:
-            if item["ID"] == Id:
-                item["Quantity"] += inc
-                messagebox.showinfo("Success", "Quantity increased successfully")
-                update_window.destroy()
-                return
+    for i in range(len(dish)):
+        if dish[i]["ID"]==Id:
+            dish.pop(i)
+            print()
+            print("Dish Removed Successfully !!")
+            print()
+            return 
+    print()    
+    print("Item doesn't exist")  
+    print()   
 
-        messagebox.showinfo("Error", "Item doesn't exist")
-        update_window.destroy()
+def Update_Availablity():
+    Id=int(input("Enter Dish ID: "))
+    Inc=int(input("Enter Quantity You want to increase: "))
 
-    # Create a button to update the availability
-    update_button = tk.Button(update_window, text="Update Availability", command=update_availability_button)
-    update_button.pack()
+    for i in range(len(dish)):
+        if dish[i]["ID"]==Id:
+            dish[i]["Quantity"]=dish[i]["Quantity"]+Inc
+    print()
+    print("Quantity Increased Successfully")
+    print()
 
-def new_order():
-    order_window = tk.Toplevel(root)
-    order_window.title("New Order")
-    
-    # Create labels and entry fields for customer name, dish ID, and quantity
-    name_label = tk.Label(order_window, text="Customer Name:")
-    name_label.pack()
-    name_entry = tk.Entry(order_window)
-    name_entry.pack()
-    
-    id_label = tk.Label(order_window, text="Dish ID:")
-    id_label.pack()
-    id_entry = tk.Entry(order_window)
-    id_entry.pack()
-    
-    quantity_label = tk.Label(order_window, text="Quantity:")
-    quantity_label.pack()
-    quantity_entry = tk.Entry(order_window)
-    quantity_entry.pack()
-    
-    def new_order_button():
-        name = name_entry.get()
-        Id = int(id_entry.get())
-        quantity = int(quantity_entry.get())
 
-        ob = {
-            "Name": name,
-            "ID": Id,
-            "status": "pending"
-        }
 
-        for item in dish:
-            if item["ID"] == Id:
-                if item["Quantity"] > 0:
-                    ob["dish"] = item["Name"]
-                    ob["price"] = item["Price"] * quantity
-                    item["Quantity"] -= quantity
-                else:
-                    messagebox.showinfo("Error", "Item is out of stock")
-                    order_window.destroy()
-                    return
+         
 
-        order.append(ob)
-        messagebox.showinfo("Success", "Order placed successfully")
-        order_window.destroy()
 
-    # Create a button to place the order
-    order_button = tk.Button(order_window, text="Place Order", command=new_order_button)
-    order_button.pack()
 
-def update_order_status():
-    status_window = tk.Toplevel(root)
-    status_window.title("Update Order Status")
-    
-    # Create a label and entry field for the dish ID
-    id_label = tk.Label(status_window, text="Dish ID:")
-    id_label.pack()
-    id_entry = tk.Entry(status_window)
-    id_entry.pack()
-    
-    def update_order_status_button():
-        Id = int(id_entry.get())
 
-        for item in order:
-            if item["ID"] == Id:
-                item["status"] = "received"
-                messagebox.showinfo("Success", "Order status changed successfully")
-                status_window.destroy()
-                return
+def New_Order():
+    Name=(input("Enter your Name: "))
+    Id=int(input("Enter Dish ID: "))
+    quantity=int(input("Enter Quantity : "))
+  
+    ob={
+         "Name":Name,
+         "ID":Id,
+         "status":"pending"
+     }
+    for i in range(len(dish)):
+         if dish[i]["ID"]==Id:
+             if dish[i]["Quantity"]>0:
+              ob["dish"]=dish[i]["Name"]
+              ob["price"]=dish[i]["Price"]*quantity
+              dish[i]["Quantity"]=dish[i]["Quantity"]-quantity
+        
+             else:
+                 print()
+                 print("Item is out of stock")
+                 print()
 
-        messagebox.showinfo("Error", "Order with this ID doesn't exist")
-        status_window.destroy()
+    order.append(ob) 
+    print()  
+    print("order done successfully")    
+    print() 
 
-    # Create a button to update the order status
-    status_button = tk.Button(status_window, text="Update Status", command=update_order_status_button)
-    status_button.pack()
 
-def review_order():
-    review_window = tk.Toplevel(root)
-    review_window.title("Review Orders")
-    
-    # Create a text widget to display the orders
-    review_text = tk.Text(review_window)
-    review_text.pack()
-    
-    # Insert orders into the text widget
-    for item in order:
-        review_text.insert(tk.END, f"Name: {item['Name']} - Dish: {item['dish']} - Price: {item['price']} - Status: {item['status']}\n")
-    
-    # Disable text widget editing
-    review_text.config(state=tk.DISABLED)
 
-# Create the main application window
-root = tk.Tk()
-root.title("Zesty Zomato")
 
-# Create buttons for each option
-menu_button = tk.Button(root, text="Menu", command=show_menu)
-menu_button.pack()
+def Update_order_status():
+     Id=int(input("Enter Dish ID: "))
+     
+     for i in range(len(order)):
+         if order[i]["ID"]==Id:
+             order[i]["status"]="recieved"
+             print()
+             print("order status changed successfully")
+             print()
+             return 
+     print()   
+     print("Order with this Id doesn,t exist")
+     print()
 
-add_button = tk.Button(root, text="Add Dish", command=add_dish)
-add_button.pack()
+def Review_Order():
+    print(order)
 
-remove_button = tk.Button(root, text="Remove Dish", command=remove_dish)
-remove_button.pack()
+while True:
+    print("Welcome to Zesty Zomato")
+    print("Choose 1 option out of this")
+    print("1. Menu")
+    print("2. Add Dish")
+    print("3. Remove Dish")
+    print("4. Update Availablity") 
+    print("5. New Order") 
+    print("6. Update order Status")
+    print("7, Review all orders")
+    print("8. Exit")
 
-availability_button = tk.Button(root, text="Update Availability", command=update_availability)
-availability_button.pack()
+    choice = int(input("choose you input: "))
 
-order_button = tk.Button(root, text="New Order", command=new_order)
-order_button.pack()
+    if choice==1:
+        Show_Menu()
 
-status_button = tk.Button(root, text="Update Order Status", command=update_order_status)
-status_button.pack()
+    elif choice==2:
+        print("\n")
+        Add_dish()
 
-review_button = tk.Button(root, text="Review All Orders", command=review_order)
-review_button.pack()
+    elif choice==3:
+        Remove_dish()
 
-exit_button = tk.Button(root, text="Exit", command=root.quit)
-exit_button.pack()
+    elif choice==4:
+        Update_Availablity()
 
-# Start the main event loop
-root.mainloop()
+    elif choice==5:
+        New_Order()  
+
+    elif choice==6:
+        Update_order_status()
+
+    elif choice==7:
+        Review_Order()
+
+    elif choice==8:
+        print("You have successfully quit!! ")
+        break;
+    else:
+        print("Invalid Input")
+        continue
